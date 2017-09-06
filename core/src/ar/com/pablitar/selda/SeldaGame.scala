@@ -45,9 +45,6 @@ class SeldaGame extends ApplicationAdapter {
       PlayerRenderer.render(player, sb)
     }
     
-    renderers.withShapes() { sr =>
-      sr.circle(player.x, player.y, 1)
-    }
     renderers.end()
     tiledMapRenderer.render(Array(5, 6))
   }
