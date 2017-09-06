@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" nextobjectid="14">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" nextobjectid="20">
  <tileset firstgid="1" source="Overworld.tsx"/>
  <layer name="Terrain" width="32" height="32">
   <data encoding="csv">
@@ -153,6 +153,7 @@
    <ellipse/>
   </object>
   <object id="13" x="296" y="80" width="144" height="48"/>
+  <object id="19" name="PlayerStartingPosition" x="262.333" y="183.5"/>
  </objectgroup>
  <layer name="Foreground" width="32" height="32">
   <data encoding="csv">
