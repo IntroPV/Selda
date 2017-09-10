@@ -14,6 +14,7 @@ import ar.com.pablitar.libgdx.commons.state.TimedStateTransition
 trait PlayerState {
   var elapsed: Float = 0
   val timedTransition: Option[(Float, () => PlayerState)] = None
+  val topSpeedValue = 90
 
   def update(player: Player, delta: Float) = {
     elapsed += delta
@@ -33,25 +34,27 @@ object PlayerState {
     override val timedTransition = Some((attackingDuration, Idle))
     
     override def face(player: Player, direction: Vector2) = {}
+    
+    override val topSpeedValue = 45
   }
 }
 
 import PlayerState._
 import com.badlogic.gdx.Input.Keys
+import ar.com.pablitar.libgdx.commons.traits.CircularPositioned
 
-class Player(initialPosition: Vector2) extends RectangularPositioned with AcceleratedSpeedBehaviour with DragBehaviour {
+class Player(initialPosition: Vector2) extends CircularPositioned with AcceleratedSpeedBehaviour with DragBehaviour {
   position = initialPosition
   var state: PlayerState = Idle()
 
   val drag = 500f
   var activeAcceleration = Option.empty[Vector2]
   var facingDirection: CoordinateDirection = CoordinateDirection.South
-  override val topSpeedMagnitude = Some(90)
+  override def topSpeedMagnitude = Some(state.topSpeedValue)
   
   def isActivelyWalking() = activeAcceleration.isDefined
 
-  val width = 16f
-  val height = 16f
+  val radius = 12f
 
   val activeAccelerationMagnitude = 1000f
 

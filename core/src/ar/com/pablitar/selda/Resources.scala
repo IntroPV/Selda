@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter
 
 object Resources extends ResourceManager {
   lazy val playerTexture = texture("character.png", TextureFilter.Nearest)
+  lazy val logTexture = texture("log.png", TextureFilter.Nearest)
 
   def walkingSprites(x: Int, y: Int) = {
     spriteTable(playerTexture, new Vector2(x, y), 15, 26, 4, 1)
@@ -35,10 +36,19 @@ object Resources extends ResourceManager {
     South -> new Animation(attackingFrameDuration, attackingNorthAndSouthSprites(4, 131): _*),
     East -> new Animation(attackingFrameDuration, spriteTable(playerTexture, new Vector2(2, 199), 27, 22, 4, 1, 5): _*),
     North -> new Animation(attackingFrameDuration, attackingNorthAndSouthSprites(4, 165): _*),
-    West -> new Animation(attackingFrameDuration, spriteTable(playerTexture, new Vector2(3, 228), 27, 24, 4, 1, 5): _*))
+    West -> new Animation(attackingFrameDuration, spriteTable(playerTexture, new Vector2(3, 230), 27, 24, 4, 1, 5): _*))
 
   lazy val idleSprites = walkingAnimations.map {
     case (k, v) => (k, v.getKeyFrames.apply(0))
   }
+  
+  
+  val logWalkingFrameDuration = 0.2f
+  
+  lazy val logAnimations = Map[CoordinateDirection, Animation[Sprite]](
+    South -> new Animation(logWalkingFrameDuration, spriteTable(logTexture, new Vector2(2, 6), 28, 25, 4, 1, 4): _*),
+    East -> new Animation(logWalkingFrameDuration, spriteTable(logTexture, new Vector2(2, 68), 28, 26, 4, 1, 4): _*),
+    North -> new Animation(logWalkingFrameDuration, spriteTable(logTexture, new Vector2(2, 38), 28, 25, 4, 1, 4): _*),
+    West -> new Animation(logWalkingFrameDuration, spriteTable(logTexture, new Vector2(2, 100), 28, 26, 4, 1, 4): _*))
 
 }
