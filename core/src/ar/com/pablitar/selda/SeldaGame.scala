@@ -31,7 +31,7 @@ class SeldaGame extends ApplicationAdapter {
   override def render() {
     val delta = Gdx.graphics.getDeltaTime
     player.update(delta)
-    moveCamera()
+    moveCamera(delta)
     camera.update();
 
     Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1)
@@ -44,6 +44,7 @@ class SeldaGame extends ApplicationAdapter {
     renderers.withSprites { sb =>
       PlayerRenderer.render(player, sb)
     }
+    renderers.withShapes()(_.circle(player.x, player.y, 1))
     
     renderers.end()
     tiledMapRenderer.render(Array(5, 6))
@@ -59,7 +60,10 @@ class SeldaGame extends ApplicationAdapter {
     Resources.dispose()
   }
 
-  def moveCamera() = {
+  val cameraRotationSpeed = 0f
+  
+  def moveCamera(delta: Float) = {
+    camera.rotate(cameraRotationSpeed * delta)
     camera.position.set(player.position, camera.position.z)
   }
 }
