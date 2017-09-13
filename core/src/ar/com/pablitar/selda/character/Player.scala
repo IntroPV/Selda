@@ -10,7 +10,7 @@ import ar.com.pablitar.libgdx.commons.CoordinateDirection
 import ar.com.pablitar.libgdx.commons.traits.DragBehaviour
 import ar.com.pablitar.libgdx.commons.state.State
 import ar.com.pablitar.libgdx.commons.state.TimedStateTransition
-import PlayerState._
+import PlayerActionState._
 import com.badlogic.gdx.Input.Keys
 import ar.com.pablitar.libgdx.commons.traits.CircularPositioned
 import ar.com.pablitar.selda.World
@@ -43,9 +43,9 @@ class PlayerAttack {
   def damage: Float = 1
 }
 
-trait PlayerState {
+trait PlayerActionState {
   var elapsed: Float = 0
-  val timedTransition: Option[(Float, () => PlayerState)] = None
+  val timedTransition: Option[(Float, () => PlayerActionState)] = None
   val topSpeedValue = 90
 
   def currentAttack = Option.empty[PlayerAttack]
@@ -64,7 +64,7 @@ trait PlayerState {
   }
 }
 
-object PlayerState {
+object PlayerActionState {
   val attackingDuration = 0.3f
   val attackingCooldown = 0.25f
 
@@ -72,13 +72,14 @@ object PlayerState {
 
   val flinchDuration = 0.3f
 
-  case class Idle() extends PlayerState
-  case class Flinch() extends PlayerState {
+  case class Idle() extends PlayerActionState
+  case class Flinch() extends PlayerActionState {
     override val timedTransition = Some((flinchDuration, Idle))
     override def attack(player: Player) = {}
     override def face(player: Player, direction: Vector2) = {}
+    override val topSpeedValue = 20
   }
-  case class Attacking() extends PlayerState {
+  case class Attacking() extends PlayerActionState {
 
     def inAttackWindow = elapsed >= attackWindowDelay
 
@@ -100,7 +101,7 @@ object PlayerState {
 
 class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
   position = initialPosition
-  var state: PlayerState = Idle()
+  var state: PlayerActionState = Idle()
 
   val drag = 500f
   var activeAcceleration = Option.empty[Vector2]
@@ -167,7 +168,7 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   override def receiveAttack(damage: Float, attacker: SeldaUnit) = {
     super.receiveAttack(damage, attacker)
-    this.setInvincible(0.8f)
+    this.setInvincible(1.0f)
     state = Flinch()
   }
 

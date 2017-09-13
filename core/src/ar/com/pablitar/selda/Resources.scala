@@ -57,4 +57,12 @@ object Resources extends ResourceManager {
     North -> new Animation(logWalkingFrameDuration, spriteTable(logTexture, new Vector2(2, 38), 28, 25, 4, 1, 4): _*),
     West -> new Animation(logWalkingFrameDuration, spriteTable(logTexture, new Vector2(2, 100), 28, 26, 4, 1, 4): _*))
 
+  lazy val logSleeping = new Animation(logWalkingFrameDuration,
+    spriteTable(logTexture, new Vector2(128, 5), 33, 27, 1, 4, 1, 5): _*);
+
+  val logWakingUpFrameDuration = 1.0f / 3
+
+  lazy val logWakingUp = new Animation(logWakingUpFrameDuration,
+    spriteTable(logTexture, new Vector2(160, 4), 33, 27, 1, 3, 1, 5): _*);
+
 }

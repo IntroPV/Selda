@@ -7,14 +7,14 @@ import ar.com.pablitar.libgdx.commons.extensions.SpriteExtensions._
 import com.badlogic.gdx.Gdx
 import ar.com.pablitar.libgdx.commons.CoordinateDirection
 import ar.com.pablitar.selda.Resources
-import ar.com.pablitar.selda.character.PlayerState.Idle
-import ar.com.pablitar.selda.character.PlayerState.Attacking
+import ar.com.pablitar.selda.character.PlayerActionState.Idle
+import ar.com.pablitar.selda.character.PlayerActionState.Attacking
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Sprite
 import ar.com.pablitar.selda.SeldaGame
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import ar.com.pablitar.selda.units.SeldaUnitRenderer
-import ar.com.pablitar.selda.character.PlayerState.Flinch
+import ar.com.pablitar.selda.character.PlayerActionState.Flinch
 import com.badlogic.gdx.math.MathUtils
 
 object PlayerRenderer extends SeldaUnitRenderer[Player] {

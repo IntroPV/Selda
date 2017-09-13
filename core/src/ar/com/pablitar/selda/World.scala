@@ -10,8 +10,8 @@ import ar.com.pablitar.libgdx.commons.traits.Positioned
 class World(val map: TiledMap) {
 
   val player = new Player(playerStartingPosition, this)
-  val npcs = ArrayBuffer(new NPC(new Vector2(300, 300), this))
-    
+  val npcs = createNPCS()
+
   def renderables = player +: npcs
 
   def playerStartingPosition = {
@@ -20,7 +20,17 @@ class World(val map: TiledMap) {
   }
 
   def update(delta: Float) = {
-    for(npc <- npcs) npc.update(delta)
+    for (npc <- npcs) npc.update(delta)
     player.update(delta)
+  }
+
+  def createNPCS(): ArrayBuffer[NPC] = {
+    val a = ArrayBuffer.empty[NPC]
+    
+    for (i <- 1.to(33); j <- 1.to(33)) yield {
+      a += new NPC(new Vector2(i*16, 300 - j * 16), this)
+    }
+    
+    a
   }
 }

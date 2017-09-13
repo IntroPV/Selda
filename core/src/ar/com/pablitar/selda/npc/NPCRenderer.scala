@@ -11,6 +11,11 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 
 object NPCRenderer  extends SeldaUnitRenderer[NPC] {
   def spriteForUnit(unit: NPC): Sprite = {
-    spriteFromAnimation(Resources.logAnimations, unit, true)
+    import NPCState._
+    unit.state match {
+      case Wandering(_) => spriteFromAnimation(Resources.logAnimations, unit, true)
+      case Sleeping() => Resources.logSleeping.getKeyFrame(unit.elapsed, true)
+      case WakingUp() => Resources.logWakingUp.getKeyFrame(unit.elapsed, true)
+    }
   }
 }
