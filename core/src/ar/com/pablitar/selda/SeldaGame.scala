@@ -21,45 +21,38 @@ import scala.collection.SortedSet
 import scala.math.Ordering
 import scala.collection.mutable.ArrayBuffer
 
+object SeldaGame {
+  var debug: Boolean = true
+}
+
 class SeldaGame extends ApplicationAdapter {
-  lazy val tiledMap = new TmxMapLoader().load("Tiles/grassland.tmx")
+
   lazy val camera = new OrthographicCamera()
   lazy val viewport = new FitViewport(Configuration.VIEWPORT_WIDTH, Configuration.VIEWPORT_HEIGHT, camera)
   lazy val renderers = new Renderers
   lazy val tiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap)
-  lazy val psp = tiledMap.getLayers.get("Objects").getObjects.get("PlayerStartingPosition").getProperties
 
-  lazy val player = new Player(new Vector2(psp.get("x", classOf[Float]), psp.get("y", classOf[Float])))
-  lazy val npc = new NPC(new Vector2(300, 300))
-
-  val renderables = ArrayBuffer.empty[Positioned]
+  lazy val world = new World(new TmxMapLoader().load("Tiles/grassland.tmx"))
+  def tiledMap = world.map
 
   override def create() {
     camera.setToOrtho(false, Configuration.VIEWPORT_WIDTH, Configuration.VIEWPORT_HEIGHT)
     viewport.apply(true)
-    renderables += player
-    renderables += npc
   }
 
   override def render() {
     val delta = Gdx.graphics.getDeltaTime
-    npc.update(delta)
-    player.update(delta)
+    world.update(delta)
     moveCamera(delta)
     camera.update();
 
     Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
-    renderers.setProjectionMatrix(camera.combined)
-
+    
     tiledMapRenderer.setView(camera);
-    tiledMapRenderer.render(Array(0, 1, 2, 3));
-    renderers.begin()
-
-    for (renderable <- renderables.sortBy(-_.y)) doRender(renderers, renderable)
-
-    renderers.end()
-    tiledMapRenderer.render(Array(5, 6))
+    renderers.setProjectionMatrix(camera.combined)
+    
+    WorldRenderer.render(world, renderers, tiledMapRenderer)
   }
 
   override def resize(width: Int, height: Int) = {
@@ -79,12 +72,5 @@ class SeldaGame extends ApplicationAdapter {
     camera.position.set(player.position, camera.position.z)
   }
 
-  def doRender(renderers: Renderers, renderable: Positioned) = {
-    renderers.withSprites { sb =>
-      renderable match {
-        case p: Player => PlayerRenderer.render(player, sb)
-        case npc: NPC  => NPCRenderer.render(npc, sb)
-      }
-    }
-  }
+  def player = world.player
 }

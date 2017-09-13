@@ -11,13 +11,14 @@ import ar.com.pablitar.selda.character.PlayerState.Idle
 import ar.com.pablitar.selda.character.PlayerState.Attacking
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Sprite
+import ar.com.pablitar.selda.SeldaGame
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 
 object PlayerRenderer {
-  def render(player: Player, spriteBatch: SpriteBatch) = {
-    def spriteFromAnimation(animations : (CoordinateDirection => Animation[Sprite]), looping: Boolean = true) = 
+  def render(player: Player, renderers: Renderers) = {
+    def spriteFromAnimation(animations: (CoordinateDirection => Animation[Sprite]), looping: Boolean = true) =
       animations(player.facingDirection).getKeyFrame(player.state.elapsed, looping)
-    
-    
+
     val s = player.state match {
       case Idle() => if (player.isActivelyWalking()) {
         spriteFromAnimation(Resources.walkingAnimations)
@@ -26,7 +27,17 @@ object PlayerRenderer {
       }
       case Attacking() => spriteFromAnimation(Resources.attackingAnimations, false)
     }
-    
-      s.drawCenteredInOrigin(spriteBatch, player.position)
+
+    renderers.withSprites { sb =>
+      s.drawCenteredInOrigin(sb, player.position)
+    }
+
+    if (SeldaGame.debug) {
+      for (attack <- player.currentAttack) {
+        renderers.withShapes(ShapeType.Filled) { shapes =>
+          shapes.polygon(attack.polygonFor(player).getTransformedVertices)
+        }
+      }
+    }
   }
 }

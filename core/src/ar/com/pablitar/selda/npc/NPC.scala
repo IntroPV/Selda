@@ -8,9 +8,10 @@ import ar.com.pablitar.libgdx.commons.CoordinateDirection
 import com.badlogic.gdx.math.MathUtils
 import ar.com.pablitar.libgdx.commons.traits.DragBehaviour
 import ar.com.pablitar.libgdx.commons.extensions.VectorExtensions._
+import ar.com.pablitar.libgdx.commons.traits.Positioned
+import com.badlogic.gdx.math.Polygon
 
-class NPC(initialPosition: Vector2) extends CircularPositioned with AcceleratedSpeedBehaviour with DragBehaviour {
-  val radius = 12f
+class NPC(initialPosition: Vector2) extends Positioned with AcceleratedSpeedBehaviour with DragBehaviour {
   var facingDirection = randomDirection()
   var remainingDirectionDuration = randomDirectionDuration()
   var elapsed = 0f
@@ -27,6 +28,7 @@ class NPC(initialPosition: Vector2) extends CircularPositioned with AcceleratedS
   def update(delta: Float) = {
     elapsed += delta
     remainingDirectionDuration -= delta
+    knockRemaining = (knockRemaining - delta).max(0)
     if(remainingDirectionDuration <=0) {
       newDirection()
     }
@@ -45,5 +47,27 @@ class NPC(initialPosition: Vector2) extends CircularPositioned with AcceleratedS
 
   def activeAcceleration: Option[Vector2] = {
     Some(facingDirection.versor * accelerationMagnitude)
+  }
+  
+  private val _polygon = new Polygon(Array(-7, -10, 7, -10, 7, 10, -7, 10))
+
+  def polygon: Polygon = {
+    _polygon.setPosition(this.x, this.y)
+    _polygon
+  }
+  
+  override def speed = super.speed + knockbackVelocity 
+  
+  def knockbackMagnitude =  maxKnockbackSpeed * (knockRemaining / knockbackDuration)
+  def knockbackVelocity = knockbackDirection * knockbackMagnitude
+  
+  val maxKnockbackSpeed = 150f
+  val knockbackDuration = 0.3f
+  var knockRemaining = 0f 
+  var knockbackDirection = new Vector2()
+
+  def knockBackFrom(position: Vector2) = {
+    knockbackDirection = (this.position - position).versor
+    knockRemaining = knockbackDuration
   }
 }
