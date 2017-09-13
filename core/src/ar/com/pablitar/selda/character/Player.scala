@@ -39,6 +39,8 @@ class PlayerAttack {
   def impacts(player: Player, npc: NPC) = {
     Intersector.overlapConvexPolygons(polygonFor(player), npc.polygon)
   }
+
+  def damage: Float = 1
 }
 
 trait PlayerState {
@@ -148,7 +150,7 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
   def checkAttackAgainst(npc: NPC, attack: PlayerAttack) = {
     if (!attack.victims.contains(npc) && attack.impacts(this, npc)) {
       attack.victims += npc
-      npc.knockBackFrom(this.position)
+      npc.receiveAttack(attack.damage, this)
     }
   }
 
@@ -159,11 +161,15 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   def checkCollisionAgainst(npc: NPC) = {
     if (Intersector.overlapConvexPolygons(this.polygon, npc.polygon)) {
-      this.knockBackFrom(npc.position)
-      this.setInvincible(0.6f)
-      state = Flinch()
+      this.receiveAttack(npc.damage, npc)
     }
   }
 
-  override val maxKnockbackSpeed = 150f
+  override def receiveAttack(damage: Float, attacker: SeldaUnit) = {
+    super.receiveAttack(damage, attacker)
+    this.setInvincible(0.8f)
+    state = Flinch()
+  }
+
+  override def onDeath() = { println("game overrrr") }
 }

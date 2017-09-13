@@ -10,7 +10,7 @@ import ar.com.pablitar.libgdx.commons.traits.Positioned
 class World(val map: TiledMap) {
 
   val player = new Player(playerStartingPosition, this)
-  val npcs = ArrayBuffer(new NPC(new Vector2(300, 300)))
+  val npcs = ArrayBuffer(new NPC(new Vector2(300, 300), this))
     
   def renderables = player +: npcs
 

@@ -22,7 +22,7 @@ import scala.math.Ordering
 import scala.collection.mutable.ArrayBuffer
 
 object SeldaGame {
-  var debug: Boolean = true
+  var debug: Boolean = false
 }
 
 class SeldaGame extends ApplicationAdapter {

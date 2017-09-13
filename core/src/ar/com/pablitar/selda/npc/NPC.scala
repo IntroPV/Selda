@@ -12,13 +12,16 @@ import ar.com.pablitar.libgdx.commons.traits.Positioned
 import com.badlogic.gdx.math.Polygon
 import ar.com.pablitar.libgdx.commons.traits.KnockableBehaviour
 import ar.com.pablitar.selda.units.SeldaUnit
+import ar.com.pablitar.selda.World
 
-class NPC(initialPosition: Vector2) extends SeldaUnit {
+class NPC(initialPosition: Vector2, world: World) extends SeldaUnit {
   facingDirection = randomDirection()
   var remainingDirectionDuration = randomDirectionDuration()
   var elapsed = 0f
 
   this.position = initialPosition
+  
+  val damage = 0.5f
 
   def randomDirection() = {
     import CoordinateDirection._
@@ -52,4 +55,5 @@ class NPC(initialPosition: Vector2) extends SeldaUnit {
   
   val _polygon = new Polygon(Array(-7, -9, 7, -9, 7, 5, -7, 5))
 
+  override def onDeath() = world.npcs -= this
 }
