@@ -28,7 +28,7 @@ object PlayerAttack {
 
 class PlayerAttack {
   val victims = ArrayBuffer.empty[NPC]
-  val attackPolygon = new Polygon(Array(2, -4, 2, 4, 13, 7, 13, -7))
+  val attackPolygon = new Polygon(Array(2, -4, 2, 4, 14, 7, 14, -7))
 
   def polygonFor(player: Player) = {
     attackPolygon.setPosition(player.x, player.y)
@@ -68,7 +68,14 @@ object PlayerState {
 
   val attackWindowDelay = attackingDuration / 4
 
+  val flinchDuration = 0.3f
+
   case class Idle() extends PlayerState
+  case class Flinch() extends PlayerState {
+    override val timedTransition = Some((flinchDuration, Idle))
+    override def attack(player: Player) = {}
+    override def face(player: Player, direction: Vector2) = {}
+  }
   case class Attacking() extends PlayerState {
 
     def inAttackWindow = elapsed >= attackWindowDelay
@@ -99,6 +106,8 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   def elapsed = state.elapsed
 
+  var remainingInvincibility = 0f
+
   def isActivelyWalking() = activeAcceleration.isDefined
 
   val activeAccelerationMagnitude = 1000f
@@ -117,7 +126,10 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
 
     state.update(this, delta)
     for (attack <- currentAttack) checkAttack(attack)
-    for (npc <- world.npcs) checkCollisionAgainst(npc)
+    if (!this.invincible) {
+      for (npc <- world.npcs) checkCollisionAgainst(npc)
+    }
+    remainingInvincibility -= delta
     super.update(delta)
   }
 
@@ -142,9 +154,16 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   val _polygon = new Polygon(Array(-4, -8, 4, -8, 6, 4, -6, 4))
 
+  def invincible = remainingInvincibility > 0
+  def setInvincible(duration: Float) = this.remainingInvincibility = duration
+
   def checkCollisionAgainst(npc: NPC) = {
     if (Intersector.overlapConvexPolygons(this.polygon, npc.polygon)) {
       this.knockBackFrom(npc.position)
+      this.setInvincible(0.6f)
+      state = Flinch()
     }
   }
+
+  override val maxKnockbackSpeed = 150f
 }

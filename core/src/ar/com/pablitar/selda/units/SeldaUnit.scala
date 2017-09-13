@@ -23,4 +23,7 @@ trait SeldaUnit extends Positioned with AcceleratedSpeedBehaviour with DragBehav
     _polygon.setPosition(this.x, this.y)
     _polygon
   }
+  
+  val maxKnockbackSpeed = 150f
+  val knockbackDuration = 0.3f
 }

@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import ar.com.pablitar.selda.SeldaGame
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
 import ar.com.pablitar.selda.units.SeldaUnitRenderer
+import ar.com.pablitar.selda.character.PlayerState.Flinch
+import com.badlogic.gdx.math.MathUtils
 
 object PlayerRenderer extends SeldaUnitRenderer[Player] {
 
@@ -27,13 +29,20 @@ object PlayerRenderer extends SeldaUnitRenderer[Player] {
   }
 
   def spriteForUnit(player: Player) = {
-    player.state match {
+    val s = player.state match {
       case Idle() => if (player.isActivelyWalking()) {
         spriteFromAnimation(Resources.walkingAnimations, player)
       } else {
         Resources.idleSprites(player.facingDirection)
       }
       case Attacking() => spriteFromAnimation(Resources.attackingAnimations, player, false)
+      case Flinch()    => spriteFromAnimation(Resources.damageReceivedAnimation, player, false)
     }
+    if (player.invincible) {
+      s.setAlpha(MathUtils.sin(MathUtils.PI2 * 6 * player.elapsed) * 0.5f + 0.5f)
+    } else {
+      s.setAlpha(1f)
+    }
+    s
   }
 }
