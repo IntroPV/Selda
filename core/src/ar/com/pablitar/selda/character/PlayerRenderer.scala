@@ -13,31 +13,27 @@ import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.Sprite
 import ar.com.pablitar.selda.SeldaGame
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType
+import ar.com.pablitar.selda.units.SeldaUnitRenderer
 
-object PlayerRenderer {
-  def render(player: Player, renderers: Renderers) = {
-    def spriteFromAnimation(animations: (CoordinateDirection => Animation[Sprite]), looping: Boolean = true) =
-      animations(player.facingDirection).getKeyFrame(player.state.elapsed, looping)
+object PlayerRenderer extends SeldaUnitRenderer[Player] {
 
-    val s = player.state match {
+  override def renderDebug(player: Player, renderers: Renderers) = {
+    super.renderDebug(player, renderers)
+    for (attack <- player.currentAttack) {
+      renderers.withShapes(ShapeType.Filled) { shapes =>
+        shapes.polygon(attack.polygonFor(player).getTransformedVertices)
+      }
+    }
+  }
+
+  def spriteForUnit(player: Player) = {
+    player.state match {
       case Idle() => if (player.isActivelyWalking()) {
-        spriteFromAnimation(Resources.walkingAnimations)
+        spriteFromAnimation(Resources.walkingAnimations, player)
       } else {
         Resources.idleSprites(player.facingDirection)
       }
-      case Attacking() => spriteFromAnimation(Resources.attackingAnimations, false)
-    }
-
-    renderers.withSprites { sb =>
-      s.drawCenteredInOrigin(sb, player.position)
-    }
-
-    if (SeldaGame.debug) {
-      for (attack <- player.currentAttack) {
-        renderers.withShapes(ShapeType.Filled) { shapes =>
-          shapes.polygon(attack.polygonFor(player).getTransformedVertices)
-        }
-      }
+      case Attacking() => spriteFromAnimation(Resources.attackingAnimations, player, false)
     }
   }
 }

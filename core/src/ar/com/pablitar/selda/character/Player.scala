@@ -20,15 +20,16 @@ import scala.collection.mutable.ArrayBuffer
 import ar.com.pablitar.selda.npc.NPC
 import com.badlogic.gdx.math.Intersector
 import ar.com.pablitar.libgdx.commons.traits.Positioned
+import ar.com.pablitar.selda.units.SeldaUnit
 
 object PlayerAttack {
-  
+
 }
 
 class PlayerAttack {
   val victims = ArrayBuffer.empty[NPC]
   val attackPolygon = new Polygon(Array(2, -4, 2, 4, 13, 7, 13, -7))
-  
+
   def polygonFor(player: Player) = {
     attackPolygon.setPosition(player.x, player.y)
     attackPolygon.setRotation(player.facingDirection.versor.angle())
@@ -88,20 +89,21 @@ object PlayerState {
   }
 }
 
-class Player(initialPosition: Vector2, world: World) extends Positioned with AcceleratedSpeedBehaviour with DragBehaviour {
+class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
   position = initialPosition
   var state: PlayerState = Idle()
 
   val drag = 500f
   var activeAcceleration = Option.empty[Vector2]
-  var facingDirection: CoordinateDirection = CoordinateDirection.South
   override def topSpeedMagnitude = Some(state.topSpeedValue)
+
+  def elapsed = state.elapsed
 
   def isActivelyWalking() = activeAcceleration.isDefined
 
   val activeAccelerationMagnitude = 1000f
 
-  def update(delta: Float) = {
+  override def update(delta: Float) = {
     val inputAcceleration = Gdx.input.arrowsDirection * activeAccelerationMagnitude
 
     if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
@@ -115,7 +117,8 @@ class Player(initialPosition: Vector2, world: World) extends Positioned with Acc
 
     state.update(this, delta)
     for (attack <- currentAttack) checkAttack(attack)
-    updateValues(delta)
+    for (npc <- world.npcs) checkCollisionAgainst(npc)
+    super.update(delta)
   }
 
   def currentAttack = state.currentAttack
@@ -134,6 +137,14 @@ class Player(initialPosition: Vector2, world: World) extends Positioned with Acc
     if (!attack.victims.contains(npc) && attack.impacts(this, npc)) {
       attack.victims += npc
       npc.knockBackFrom(this.position)
+    }
+  }
+
+  val _polygon = new Polygon(Array(-4, -8, 4, -8, 6, 4, -6, 4))
+
+  def checkCollisionAgainst(npc: NPC) = {
+    if (Intersector.overlapConvexPolygons(this.polygon, npc.polygon)) {
+      this.knockBackFrom(npc.position)
     }
   }
 }
