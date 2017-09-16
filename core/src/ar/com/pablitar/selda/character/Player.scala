@@ -40,7 +40,7 @@ class PlayerAttack {
     Intersector.overlapConvexPolygons(polygonFor(player), npc.polygon)
   }
 
-  def damage: Float = 1
+  def damage: Float = 5
 }
 
 trait PlayerActionState {
@@ -118,7 +118,7 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
   override def update(delta: Float) = {
     val inputAcceleration = Gdx.input.arrowsDirection * activeAccelerationMagnitude
 
-    if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
+    if (Gdx.input.isKeyJustPressed(Keys.CONTROL_LEFT)) {
       state.attack(this)
     }
 

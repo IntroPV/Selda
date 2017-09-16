@@ -103,7 +103,7 @@ class NPC(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   val _polygon = new Polygon(Array(-7, -9, 7, -9, 7, 5, -7, 5))
 
-  override def onDeath() = world.npcs -= this
+  override def onDeath() = world.npcs.removeDelayed(this)
 
   def distanceToPlayer2 = {
     world.player.position.dst2(this.position)
