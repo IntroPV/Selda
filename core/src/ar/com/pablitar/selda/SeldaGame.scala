@@ -69,10 +69,10 @@ class SeldaGame extends ApplicationAdapter {
     Resources.dispose()
   }
 
-  val cameraRotationSpeed = 0f
+//  val cameraRotationSpeed = 0f
 
   def moveCamera(delta: Float) = {
-    camera.rotate(cameraRotationSpeed * delta)
+//    camera.rotate(cameraRotationSpeed * delta)
     camera.position.set(player.position + world.cameraShaker.shakeOffset, camera.position.z)
   }
 

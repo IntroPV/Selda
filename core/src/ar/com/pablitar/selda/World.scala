@@ -10,8 +10,11 @@ import ar.com.pablitar.libgdx.commons.DelayedRemovalBuffer
 import ar.com.pablitar.libgdx.commons.camera.Shaker
 import ar.com.pablitar.libgdx.commons.math.RandomVectorInRange
 import ar.com.pablitar.libgdx.commons.math.RandomFloatInRange
+import ar.com.pablitar.libgdx.commons.time.TimeDelay
 
 class World(val map: TiledMap) {
+  
+  val timeDelay = new TimeDelay(0.8f, 0.6f)
 
   val player = new Player(playerStartingPosition, this)
   val npcs = createNPCS()
@@ -28,9 +31,11 @@ class World(val map: TiledMap) {
   }
 
   def update(delta: Float) = {
-    cameraShaker.update(delta)
-    for (npc <- npcs) npc.update(delta)
-    player.update(delta)
+    timeDelay.update(delta)
+    val actualDelta = timeDelay.apply(delta)
+    cameraShaker.update(actualDelta)
+    for (npc <- npcs) npc.update(actualDelta)
+    player.update(actualDelta)
     npcs.commitRemoval()
   }
 
@@ -38,9 +43,16 @@ class World(val map: TiledMap) {
     val a = new DelayedRemovalBuffer[NPC]
 
     for (i <- 1.to(33); j <- 1.to(33)) yield {
-      a.add(new NPC(new Vector2(i * 16, 300 - j * 16), this))
+      val p = new Vector2(i * 16, 300 - j * 16)
+      a.add(createNPC(p))
     }
 
     a
+  }
+
+  def createNPC(p: Vector2) = {
+    val npc = new NPC(p, this)
+    npc.onAttackReceived = () => timeDelay.startDelaying
+    npc
   }
 }
