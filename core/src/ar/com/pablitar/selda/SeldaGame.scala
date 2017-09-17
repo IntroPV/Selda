@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer
 import ar.com.pablitar.libgdx.commons.rendering.Renderers
 import com.badlogic.gdx.Input.Keys
 import ar.com.pablitar.libgdx.commons.extensions.InputExtensions._
+import ar.com.pablitar.libgdx.commons.extensions.VectorExtensions._
 import ar.com.pablitar.selda.character.Player
 import ar.com.pablitar.selda.character.PlayerRenderer
 import com.badlogic.gdx.graphics.GL20
@@ -20,6 +21,9 @@ import ar.com.pablitar.libgdx.commons.traits.Positioned
 import scala.collection.SortedSet
 import scala.math.Ordering
 import scala.collection.mutable.ArrayBuffer
+import ar.com.pablitar.libgdx.commons.camera.Shaker
+import ar.com.pablitar.libgdx.commons.math.RandomVectorInRange
+import ar.com.pablitar.libgdx.commons.math.RandomFloatInRange
 
 object SeldaGame {
   var debug: Boolean = false
@@ -51,7 +55,7 @@ class SeldaGame extends ApplicationAdapter {
     
     tiledMapRenderer.setView(camera);
     renderers.setProjectionMatrix(camera.combined)
-    
+
     WorldRenderer.render(world, renderers, tiledMapRenderer)
   }
 
@@ -69,7 +73,7 @@ class SeldaGame extends ApplicationAdapter {
 
   def moveCamera(delta: Float) = {
     camera.rotate(cameraRotationSpeed * delta)
-    camera.position.set(player.position, camera.position.z)
+    camera.position.set(player.position + world.cameraShaker.shakeOffset, camera.position.z)
   }
 
   def player = world.player

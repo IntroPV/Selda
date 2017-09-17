@@ -7,11 +7,18 @@ import ar.com.pablitar.selda.npc.NPC
 import scala.collection.mutable.ArrayBuffer
 import ar.com.pablitar.libgdx.commons.traits.Positioned
 import ar.com.pablitar.libgdx.commons.DelayedRemovalBuffer
+import ar.com.pablitar.libgdx.commons.camera.Shaker
+import ar.com.pablitar.libgdx.commons.math.RandomVectorInRange
+import ar.com.pablitar.libgdx.commons.math.RandomFloatInRange
 
 class World(val map: TiledMap) {
 
   val player = new Player(playerStartingPosition, this)
   val npcs = createNPCS()
+
+  val cameraShaker = new Shaker(new RandomVectorInRange(3f, 6f), new RandomFloatInRange(0.2f, 0.3f), new RandomVectorInRange(6, 10))
+  
+  player.onAttackReceived = () => cameraShaker.generateShake()
 
   def renderables = player +: npcs.elements
 
@@ -21,19 +28,19 @@ class World(val map: TiledMap) {
   }
 
   def update(delta: Float) = {
+    cameraShaker.update(delta)
     for (npc <- npcs) npc.update(delta)
     player.update(delta)
-    
     npcs.commitRemoval()
   }
 
   def createNPCS() = {
     val a = new DelayedRemovalBuffer[NPC]
-    
+
     for (i <- 1.to(33); j <- 1.to(33)) yield {
-      a.add(new NPC(new Vector2(i*16, 300 - j * 16), this))
+      a.add(new NPC(new Vector2(i * 16, 300 - j * 16), this))
     }
-    
+
     a
   }
 }

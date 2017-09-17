@@ -13,6 +13,8 @@ trait SeldaUnit extends Positioned with AcceleratedSpeedBehaviour with DragBehav
   
   def elapsed: Float
   var life = 10f
+  
+  var onAttackReceived : (() => Unit) = {() => }
 
   protected def _polygon : Polygon
   
@@ -22,6 +24,7 @@ trait SeldaUnit extends Positioned with AcceleratedSpeedBehaviour with DragBehav
   }
   
   def receiveAttack(damage: Float, attacker: SeldaUnit) = {
+    onAttackReceived()
     this.knockBackFrom(attacker.position)
     life -= damage
     println(f"$this has remaining life: $life%.1f")
