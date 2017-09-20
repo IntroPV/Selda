@@ -14,12 +14,12 @@ import ar.com.pablitar.libgdx.commons.time.TimeDelay
 
 class World(val map: TiledMap) {
   
-  val timeDelay = new TimeDelay(0.8f, 0.6f)
+  val timeDelay = new TimeDelay(0.8f, 0.6f, stopTimeDuration = 0.07f)
 
   val player = new Player(playerStartingPosition, this)
   val npcs = createNPCS()
 
-  val cameraShaker = new Shaker(new RandomVectorInRange(3f, 6f), new RandomFloatInRange(0.2f, 0.3f), new RandomVectorInRange(6, 10))
+  val cameraShaker = new Shaker(new RandomVectorInRange(3f, 6f), new RandomFloatInRange(0.3f, 0.4f), new RandomVectorInRange(6, 10))
   
   player.onAttackReceived = () => cameraShaker.generateShake()
 
