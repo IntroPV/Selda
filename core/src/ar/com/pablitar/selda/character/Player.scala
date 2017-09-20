@@ -28,7 +28,7 @@ object PlayerAttack {
 
 class PlayerAttack {
   val victims = ArrayBuffer.empty[NPC]
-  val attackPolygon = new Polygon(Array(2, -4, 2, 4, 14, 7, 14, -7))
+  val attackPolygon = new Polygon(Array(2, -4, 2, 4, 20, 7, 20, -7))
 
   def polygonFor(player: Player) = {
     attackPolygon.setPosition(player.x, player.y)

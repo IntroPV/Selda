@@ -30,6 +30,7 @@ class World(val map: TiledMap) {
   player.onAttackReceived = { () =>
     attackReceivedShaker.generateShake()
     cameraShaker = attackReceivedShaker
+    timeDelay.startDelaying
   }
 
   def renderables = elements.elements
