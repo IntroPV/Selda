@@ -115,7 +115,7 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   val activeAccelerationMagnitude = 1000f
 
-  override def update(delta: Float) = {
+  override def update(unalteredDelta: Float, delta: Float) = {
     val inputAcceleration = Gdx.input.arrowsDirection * activeAccelerationMagnitude
 
     if (Gdx.input.isKeyJustPressed(Keys.CONTROL_LEFT)) {
@@ -133,7 +133,7 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
       for (npc <- world.npcs) checkCollisionAgainst(npc)
     }
     remainingInvincibility -= delta
-    super.update(delta)
+    super.update(unalteredDelta: Float, delta)
   }
 
   def currentAttack = state.currentAttack

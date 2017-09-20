@@ -7,8 +7,9 @@ import ar.com.pablitar.libgdx.commons.traits.KnockableBehaviour
 import ar.com.pablitar.libgdx.commons.CoordinateDirection
 import com.badlogic.gdx.math.Polygon
 import com.badlogic.gdx.math.MathUtils
+import ar.com.pablitar.selda.SeldaElement
 
-trait SeldaUnit extends Positioned with AcceleratedSpeedBehaviour with DragBehaviour with KnockableBehaviour {
+trait SeldaUnit extends SeldaElement with AcceleratedSpeedBehaviour with DragBehaviour with KnockableBehaviour {
   var facingDirection: CoordinateDirection = CoordinateDirection.South
   
   def elapsed: Float
@@ -18,7 +19,7 @@ trait SeldaUnit extends Positioned with AcceleratedSpeedBehaviour with DragBehav
 
   protected def _polygon : Polygon
   
-  def update(delta: Float) = {
+  def update(unalteredDelta: Float, delta: Float) = {
     updateValues(delta)
     updateKnockback(delta)
   }

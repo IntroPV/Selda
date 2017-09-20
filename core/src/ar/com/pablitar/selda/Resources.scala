@@ -11,6 +11,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 
 object Resources extends ResourceManager {
+  override val atlasOption: Option[TextureAtlas] = {
+    val atlas = new TextureAtlas()
+    atlas.addRegion("impact-star", textureRegion("impact-star.png", TextureFilter.Nearest))
+    Some(atlas)
+  }
+  
   lazy val playerTexture = texture("character.png", TextureFilter.Nearest)
   lazy val logTexture = texture("log.png", TextureFilter.Nearest)
 
@@ -64,5 +70,7 @@ object Resources extends ResourceManager {
 
   lazy val logWakingUp = new Animation(logWakingUpFrameDuration,
     spriteTable(logTexture, new Vector2(160, 4), 33, 27, 1, 3, 1, 5): _*);
+  
+  lazy val impactParticleEffect = particleEffect("impact-particle.p")
 
 }

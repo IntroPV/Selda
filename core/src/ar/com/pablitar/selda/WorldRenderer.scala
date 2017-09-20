@@ -7,6 +7,8 @@ import ar.com.pablitar.selda.character.PlayerRenderer
 import ar.com.pablitar.selda.npc.NPCRenderer
 import ar.com.pablitar.selda.character.Player
 import ar.com.pablitar.selda.npc.NPC
+import ar.com.pablitar.selda.effects.ImpactEffect
+import ar.com.pablitar.selda.effects.ImpactEffectRenderer
 
 object WorldRenderer {
   def render(world: World, renderers: Renderers, tiledMapRenderer: OrthogonalTiledMapRenderer) = {
@@ -23,6 +25,7 @@ object WorldRenderer {
     renderable match {
       case p: Player => PlayerRenderer.render(p, renderers)
       case npc: NPC  => NPCRenderer.render(npc, renderers)
+      case eff: ImpactEffect => ImpactEffectRenderer.render(eff, renderers)
     }
     
   }

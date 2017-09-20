@@ -86,9 +86,9 @@ class NPC(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   val damage = 0.5f
 
-  override def update(delta: Float) = {
+  override def update(unalteredDelta: Float, delta: Float) = {
     state.update(this, delta: Float)
-    super.update(delta)
+    super.update(unalteredDelta: Float, delta)
   }
 
   val drag: Float = 200f
@@ -103,7 +103,7 @@ class NPC(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   val _polygon = new Polygon(Array(-7, -9, 7, -9, 7, 5, -7, 5))
 
-  override def onDeath() = world.npcs.removeDelayed(this)
+  override def onDeath() = world.removeElement(this)
 
   def distanceToPlayer2 = {
     world.player.position.dst2(this.position)
