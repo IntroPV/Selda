@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Animation.PlayMode
 import ar.com.pablitar.libgdx.commons.CoordinateDirection
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.Texture.TextureFilter
+import com.badlogic.gdx.audio.Sound
 
 object Resources extends ResourceManager {
   override val atlasOption: Option[TextureAtlas] = {
@@ -73,10 +74,13 @@ object Resources extends ResourceManager {
   
   lazy val impactParticleEffect = particleEffect("impact-particle.p")
   
-  lazy val swingSounds = Seq("swing.ogg", "swing2.ogg", "swing3.ogg").map(sound(_))
-  lazy val monsterImpactSound = Seq("hit33.ogg", "hit34.ogg", "hit35.ogg", "hit36.ogg", "hit37.ogg").map(sound(_))
-  lazy val monsterDeathSounds = Seq("logdeath1.ogg", "logdeath2.ogg").map(sound(_))
-  lazy val playerImpactSounds = Seq("hit14.ogg", "hit15.ogg", "hit16.ogg", "hit17.ogg").map(sound(_))
+  implicit def stringToSound(s: String) = sound(s)
   
+  lazy val swingSounds = Seq[Sound]("swing.ogg", "swing2.ogg", "swing3.ogg")
+  lazy val monsterImpactSound = Seq[Sound]("hit33.ogg", "hit34.ogg", "hit35.ogg", "hit36.ogg", "hit37.ogg")
+  lazy val monsterDeathSounds = Seq[Sound]("logdeath1.ogg", "logdeath2.ogg")
+  lazy val playerImpactSounds = Seq[Sound]("hit14.ogg", "hit15.ogg", "hit16.ogg", "hit17.ogg")
+  lazy val playerImpactScreamSound = sound("cry1.ogg") 
+  lazy val playerAttackScreams = Seq[Seq[Sound]](Seq("cry2.ogg", "cry3.ogg"), Seq("cry4.ogg"), Seq("cry5.ogg"))  
 
 }

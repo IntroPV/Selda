@@ -97,12 +97,16 @@ object PlayerActionState {
     override def attack(player: Player) = {
       if (elapsed >= attackingCooldown) player.doAttack()
     }
+
   }
 }
 
 class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
   position = initialPosition
   var state: PlayerActionState = Idle()
+  var currentAttackCombo = 0
+  var comboCooldown = 0f
+  val maxComboCooldown = 0.5f
 
   val drag = 500f
   var activeAcceleration = Option.empty[Vector2]
@@ -134,15 +138,18 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
       for (npc <- world.npcs) checkCollisionAgainst(npc)
     }
     remainingInvincibility -= delta
+    comboCooldown -= delta
     super.update(unalteredDelta: Float, delta)
   }
 
   def currentAttack = state.currentAttack
 
-  def doAttack() : Unit = {
+  def doAttack(): Unit = {
+    increaseAttackCombo()
+    comboCooldown = maxComboCooldown
     state = Attacking()
     //Esto quizás convendría desacoplarlo en algún lado, pero por ahora va
-    SeldaSoundController.playerSwing()
+    SeldaSoundController.playerSwing(this)
   }
 
   def checkAttack(attack: PlayerAttack) = {
@@ -176,4 +183,12 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
   }
 
   override def onDeath() = { println("game overrrr") }
+
+  def increaseAttackCombo() = {
+    if(comboCooldown > 0) {
+      currentAttackCombo += 1
+    } else {
+      currentAttackCombo = 0
+    }
+  }
 }
