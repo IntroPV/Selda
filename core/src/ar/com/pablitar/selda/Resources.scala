@@ -75,6 +75,8 @@ object Resources extends ResourceManager {
   
   lazy val swingSounds = Seq("swing.ogg", "swing2.ogg", "swing3.ogg").map(sound(_))
   lazy val monsterImpactSound = Seq("hit33.ogg", "hit34.ogg", "hit35.ogg", "hit36.ogg", "hit37.ogg").map(sound(_))
+  lazy val monsterDeathSounds = Seq("logdeath1.ogg", "logdeath2.ogg").map(sound(_))
   lazy val playerImpactSounds = Seq("hit14.ogg", "hit15.ogg", "hit16.ogg", "hit17.ogg").map(sound(_))
+  
 
 }

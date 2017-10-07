@@ -8,4 +8,5 @@ object SeldaSoundController extends Spatial2DSoundController {
   def playerSwing() = playAny(Resources.swingSounds)
   def monsterImpact() = playAny(Resources.monsterImpactSound)
   def playerImpact() = playAny(Resources.playerImpactSounds)
+  def monsterDeath() = playAny(Resources.monsterDeathSounds)
 }

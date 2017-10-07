@@ -14,6 +14,7 @@ import ar.com.pablitar.libgdx.commons.traits.KnockableBehaviour
 import ar.com.pablitar.selda.units.SeldaUnit
 import ar.com.pablitar.selda.World
 import NPCState._
+import ar.com.pablitar.selda.audio.SeldaSoundController
 
 trait NPCState {
   var elapsed = 0f
@@ -103,7 +104,10 @@ class NPC(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   val _polygon = new Polygon(Array(-7, -9, 7, -9, 7, 5, -7, 5))
 
-  override def onDeath() = world.removeElement(this)
+  override def onDeath() = {
+    world.removeElement(this)
+    SeldaSoundController.monsterDeath()
+  }
 
   def distanceToPlayer2 = {
     world.player.position.dst2(this.position)
