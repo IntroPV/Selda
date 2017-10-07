@@ -81,6 +81,8 @@ object Resources extends ResourceManager {
   lazy val monsterDeathSounds = Seq[Sound]("logdeath1.ogg", "logdeath2.ogg")
   lazy val playerImpactSounds = Seq[Sound]("hit14.ogg", "hit15.ogg", "hit16.ogg", "hit17.ogg")
   lazy val playerImpactScreamSound = sound("cry1.ogg") 
-  lazy val playerAttackScreams = Seq[Seq[Sound]](Seq("cry2.ogg", "cry3.ogg"), Seq("cry4.ogg"), Seq("cry5.ogg"))  
+  lazy val normalPersonality = Seq[Seq[Sound]](Seq("cry2.ogg", "cry3.ogg"), Seq("cry4.ogg"), Seq("cry5.ogg"))
+  lazy val maniacalPersonality = Seq[Seq[Sound]](Seq("laugh1.ogg", "laugh2.ogg", "laugh3.ogg"))
+  lazy val playerAttackScreams = normalPersonality  
 
 }

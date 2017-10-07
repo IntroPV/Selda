@@ -4,12 +4,16 @@ import ar.com.pablitar.libgdx.commons.audio.Spatial2DSoundController
 import ar.com.pablitar.selda.Resources
 import ar.com.pablitar.libgdx.commons.CommonMathUtils
 import ar.com.pablitar.selda.character.Player
+import com.badlogic.gdx.audio.Sound
 
 object SeldaSoundController extends Spatial2DSoundController {
+  var attackScreamSound = Option.empty[Sound];
+  
   def playerSwing(player: Player) = {
     playAny(Resources.swingSounds)
-    val playerAttackComboIndex = player.currentAttackCombo % 3
-    playAny(Resources.playerAttackScreams(playerAttackComboIndex))
+    val playerAttackComboIndex = player.currentAttackCombo % Resources.playerAttackScreams.length
+    attackScreamSound.foreach(_.stop())
+    attackScreamSound = Some(playAny(Resources.playerAttackScreams(playerAttackComboIndex))._1)
   }
   
   def monsterImpact() = playAny(Resources.monsterImpactSound)
