@@ -24,6 +24,7 @@ import scala.collection.mutable.ArrayBuffer
 import ar.com.pablitar.libgdx.commons.camera.Shaker
 import ar.com.pablitar.libgdx.commons.math.RandomVectorInRange
 import ar.com.pablitar.libgdx.commons.math.RandomFloatInRange
+import ar.com.pablitar.libgdx.commons.audio.Spatial2DSoundController
 
 object SeldaGame {
   var debug: Boolean = false

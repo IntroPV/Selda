@@ -14,6 +14,7 @@ import ar.com.pablitar.libgdx.commons.time.TimeDelay
 import ar.com.pablitar.selda.effects.ImpactEffect
 import ar.com.pablitar.selda.effects.ImpactEffect
 import ar.com.pablitar.selda.npc.NPC
+import ar.com.pablitar.selda.audio.SeldaSoundController
 
 class World(val map: TiledMap) {
 
@@ -31,6 +32,7 @@ class World(val map: TiledMap) {
     attackReceivedShaker.generateShake()
     cameraShaker = attackReceivedShaker
     timeDelay.startDelaying
+    SeldaSoundController.playerImpact()
   }
 
   def renderables = elements.elements
@@ -62,6 +64,7 @@ class World(val map: TiledMap) {
       addImpactEffect(npc.position)
       attackGivenShaker.generateShake()
       cameraShaker = attackGivenShaker
+      SeldaSoundController.monsterImpact()
     }
     npc
   }

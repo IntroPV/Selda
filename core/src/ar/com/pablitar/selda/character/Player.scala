@@ -21,6 +21,7 @@ import ar.com.pablitar.selda.npc.NPC
 import com.badlogic.gdx.math.Intersector
 import ar.com.pablitar.libgdx.commons.traits.Positioned
 import ar.com.pablitar.selda.units.SeldaUnit
+import ar.com.pablitar.selda.audio.SeldaSoundController
 
 object PlayerAttack {
 
@@ -138,8 +139,10 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
 
   def currentAttack = state.currentAttack
 
-  def doAttack() = {
+  def doAttack() : Unit = {
     state = Attacking()
+    //Esto quizás convendría desacoplarlo en algún lado, pero por ahora va
+    SeldaSoundController.playerSwing()
   }
 
   def checkAttack(attack: PlayerAttack) = {

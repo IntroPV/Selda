@@ -72,5 +72,9 @@ object Resources extends ResourceManager {
     spriteTable(logTexture, new Vector2(160, 4), 33, 27, 1, 3, 1, 5): _*);
   
   lazy val impactParticleEffect = particleEffect("impact-particle.p")
+  
+  lazy val swingSounds = Seq("swing.ogg", "swing2.ogg", "swing3.ogg").map(sound(_))
+  lazy val monsterImpactSound = Seq("hit33.ogg", "hit34.ogg", "hit35.ogg", "hit36.ogg", "hit37.ogg").map(sound(_))
+  lazy val playerImpactSounds = Seq("hit14.ogg", "hit15.ogg", "hit16.ogg", "hit17.ogg").map(sound(_))
 
 }
