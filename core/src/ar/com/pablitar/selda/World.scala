@@ -15,8 +15,10 @@ import ar.com.pablitar.selda.effects.ImpactEffect
 import ar.com.pablitar.selda.effects.ImpactEffect
 import ar.com.pablitar.selda.npc.NPC
 import ar.com.pablitar.selda.audio.SeldaSoundController
+import ar.com.pablitar.selda.audio.SeldaMusicController
 
 class World(val map: TiledMap) {
+  SeldaMusicController.playNow(Resources.mainMusic)
 
   val timeDelay = new TimeDelay(0.8f, 0.6f, stopTimeDuration = 0.07f)
 

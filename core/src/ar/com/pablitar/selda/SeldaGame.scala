@@ -25,6 +25,7 @@ import ar.com.pablitar.libgdx.commons.camera.Shaker
 import ar.com.pablitar.libgdx.commons.math.RandomVectorInRange
 import ar.com.pablitar.libgdx.commons.math.RandomFloatInRange
 import ar.com.pablitar.libgdx.commons.audio.Spatial2DSoundController
+import ar.com.pablitar.selda.audio.SeldaMusicController
 
 object SeldaGame {
   var debug: Boolean = false

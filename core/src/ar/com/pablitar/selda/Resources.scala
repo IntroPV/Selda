@@ -10,6 +10,8 @@ import ar.com.pablitar.libgdx.commons.CoordinateDirection
 import com.badlogic.gdx.graphics.g2d.Sprite
 import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.audio.Sound
+import ar.com.pablitar.libgdx.commons.audio.MusicTrack
+import com.badlogic.gdx.Gdx
 
 object Resources extends ResourceManager {
   override val atlasOption: Option[TextureAtlas] = {
@@ -83,6 +85,8 @@ object Resources extends ResourceManager {
   lazy val playerImpactScreamSound = sound("cry1.ogg") 
   lazy val normalPersonality = Seq[Seq[Sound]](Seq("cry2.ogg", "cry3.ogg"), Seq("cry4.ogg"), Seq("cry5.ogg"))
   lazy val maniacalPersonality = Seq[Seq[Sound]](Seq("laugh1.ogg", "laugh2.ogg", "laugh3.ogg"))
-  lazy val playerAttackScreams = normalPersonality  
+  lazy val playerAttackScreams = normalPersonality
+  
+  val mainMusic = () => new MusicTrack(Gdx.audio.newMusic("mainmusic.mp3"))
 
 }
