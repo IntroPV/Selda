@@ -16,9 +16,11 @@ import ar.com.pablitar.selda.effects.ImpactEffect
 import ar.com.pablitar.selda.npc.NPC
 import ar.com.pablitar.selda.audio.SeldaSoundController
 import ar.com.pablitar.selda.audio.SeldaMusicController
+import com.badlogic.gdx.math.Rectangle
+import ar.com.pablitar.libgdx.commons.audio.MusicTrack
 
 class World(val map: TiledMap) {
-  SeldaMusicController.playNow(Resources.mainMusic)
+  val townMusicArea = RectangularArea(new Rectangle(185, 300, 350, 250), Resources.townMusic)
 
   val timeDelay = new TimeDelay(0.8f, 0.6f, stopTimeDuration = 0.07f)
 
@@ -50,6 +52,11 @@ class World(val map: TiledMap) {
     cameraShaker.update(delta)
     for (element <- elements) element.update(delta, actualDelta)
     elements.commitRemoval()
+    SeldaMusicController.playMusicForArea(currentPlayerArea) 
+  }
+  
+  def currentPlayerArea = {
+    if(townMusicArea.containsPlayer(player)) townMusicArea else RestOfTheWorld
   }
 
   def createNPCS() = {
@@ -84,3 +91,19 @@ class World(val map: TiledMap) {
   }
 
 }
+
+trait WorldArea {
+  def trackGetter: () => MusicTrack
+  def containsPlayer(p: Player): Boolean
+}
+case class RectangularArea(rectangle: Rectangle, trackGetter: () => MusicTrack) extends WorldArea {
+  def containsPlayer(p: Player) = rectangle.contains(p.position)
+}
+case object RestOfTheWorld extends WorldArea {
+  val trackGetter = Resources.mainMusic
+
+  def containsPlayer(p: Player): Boolean = {
+    true
+  }
+}
+

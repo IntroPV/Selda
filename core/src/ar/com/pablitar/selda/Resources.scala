@@ -88,5 +88,6 @@ object Resources extends ResourceManager {
   lazy val playerAttackScreams = normalPersonality
   
   val mainMusic = () => new MusicTrack(Gdx.audio.newMusic("mainmusic.mp3"))
+  val townMusic = () => new MusicTrack(Gdx.audio.newMusic("townmusic.mp3"))
 
 }

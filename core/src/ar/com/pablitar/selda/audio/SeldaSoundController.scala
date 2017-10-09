@@ -5,9 +5,11 @@ import ar.com.pablitar.selda.Resources
 import ar.com.pablitar.libgdx.commons.CommonMathUtils
 import ar.com.pablitar.selda.character.Player
 import com.badlogic.gdx.audio.Sound
+import ar.com.pablitar.selda.WorldArea
+import ar.com.pablitar.selda.RestOfTheWorld
 
 object SeldaSoundController extends Spatial2DSoundController {
-  var attackScreamSound = Option.empty[Sound];
+  var attackScreamSound = Option.empty[Sound] 
   
   def playerSwing(player: Player) = {
     playAny(Resources.swingSounds)
@@ -24,4 +26,5 @@ object SeldaSoundController extends Spatial2DSoundController {
   }
   
   def monsterDeath() = playAny(Resources.monsterDeathSounds)
+
 }

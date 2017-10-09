@@ -9,6 +9,7 @@ import ar.com.pablitar.selda.character.Player
 import ar.com.pablitar.selda.npc.NPC
 import ar.com.pablitar.selda.effects.ImpactEffect
 import ar.com.pablitar.selda.effects.ImpactEffectRenderer
+import ar.com.pablitar.libgdx.commons.extensions.ShapeExtensions._
 
 object WorldRenderer {
   def render(world: World, renderers: Renderers, tiledMapRenderer: OrthogonalTiledMapRenderer) = {
@@ -23,10 +24,10 @@ object WorldRenderer {
 
   def doRender(renderers: Renderers, renderable: Positioned) = {
     renderable match {
-      case p: Player => PlayerRenderer.render(p, renderers)
-      case npc: NPC  => NPCRenderer.render(npc, renderers)
+      case p: Player         => PlayerRenderer.render(p, renderers)
+      case npc: NPC          => NPCRenderer.render(npc, renderers)
       case eff: ImpactEffect => ImpactEffectRenderer.render(eff, renderers)
     }
-    
+
   }
 }
