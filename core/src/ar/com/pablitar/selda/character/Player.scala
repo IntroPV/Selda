@@ -123,13 +123,13 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
   override def update(unalteredDelta: Float, delta: Float) = {
     val inputAcceleration = Gdx.input.arrowsDirection * activeAccelerationMagnitude
 
-    if (Gdx.input.isKeyJustPressed(Keys.CONTROL_LEFT)) {
-      state.attack(this)
-    }
-
     activeAcceleration = if (inputAcceleration.isZero()) None else {
       state.face(this, inputAcceleration)
       Some(inputAcceleration)
+    }
+
+    if (Gdx.input.isKeyJustPressed(Keys.CONTROL_LEFT)) {
+      state.attack(this)
     }
 
     state.update(this, delta)
@@ -185,7 +185,7 @@ class Player(initialPosition: Vector2, world: World) extends SeldaUnit {
   override def onDeath() = { println("game overrrr") }
 
   def increaseAttackCombo() = {
-    if(comboCooldown > 0) {
+    if (comboCooldown > 0) {
       currentAttackCombo += 1
     } else {
       currentAttackCombo = 0

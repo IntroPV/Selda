@@ -5,7 +5,7 @@ import ar.com.pablitar.selda.RestOfTheWorld
 import ar.com.pablitar.selda.WorldArea
 
 object SeldaMusicController extends MusicController {
-  musicVolume = 0.7f
+  musicVolume = 0.85f
   var currentMusicArea: WorldArea = RestOfTheWorld
 
   def playMusicForArea(currentPlayerArea: WorldArea) = {

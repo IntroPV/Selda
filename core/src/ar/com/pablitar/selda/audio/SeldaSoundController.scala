@@ -9,6 +9,7 @@ import ar.com.pablitar.selda.WorldArea
 import ar.com.pablitar.selda.RestOfTheWorld
 
 object SeldaSoundController extends Spatial2DSoundController {
+  //Tendría que estar en el jugador
   var attackScreamSound = Option.empty[Sound] 
   
   def playerSwing(player: Player) = {
