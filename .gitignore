@@ -2,3 +2,7 @@ core/bin
 desktop/bin
 *.cache-main
 *.directory
+.gradle
+core/build
+desktop/build
+.idea
