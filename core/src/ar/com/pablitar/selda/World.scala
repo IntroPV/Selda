@@ -24,7 +24,7 @@ import ar.com.pablitar.selda.units.SeldaUnit
 class World(val map: TiledMap) {
   val townMusicArea = RectangularArea(new Rectangle(185, 300, 350, 250), Resources.townMusic)
 
-  val timeDelay = new TimeDelay(0.8f, 0.6f, stopTimeDuration = 0.07f)
+  val timeDelay = new TimeDelay(0.8f, 0.6f, stopTimeDuration = 0.1f)
 
   val player = new Player(playerStartingPosition, this)
   val elements = new DelayedRemovalBuffer[SeldaElement](player)
