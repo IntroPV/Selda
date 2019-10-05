@@ -1,9 +1,10 @@
 package ar.com.pablitar.selda
 
-import com.badlogic.gdx.maps.tiled.TiledMap
+import com.badlogic.gdx.maps.tiled.{TiledMap, TiledMapTileLayer}
 import com.badlogic.gdx.math.Vector2
 import ar.com.pablitar.selda.character.Player
 import ar.com.pablitar.selda.npc.NPC
+
 import scala.collection.mutable.ArrayBuffer
 import ar.com.pablitar.libgdx.commons.traits.Positioned
 import ar.com.pablitar.libgdx.commons.DelayedRemovalBuffer
@@ -18,6 +19,7 @@ import ar.com.pablitar.selda.audio.SeldaSoundController
 import ar.com.pablitar.selda.audio.SeldaMusicController
 import com.badlogic.gdx.math.Rectangle
 import ar.com.pablitar.libgdx.commons.audio.MusicTrack
+import ar.com.pablitar.selda.units.SeldaUnit
 
 class World(val map: TiledMap) {
   val townMusicArea = RectangularArea(new Rectangle(185, 300, 350, 250), Resources.townMusic)
@@ -89,6 +91,15 @@ class World(val map: TiledMap) {
   def npcs = {
     elements.elements.collect { case npc: NPC => npc }
   }
+
+  def isPassableBy(unit: SeldaUnit, aPosition: Vector2): Boolean = {
+    val option = Option(tileAt(aPosition)).map(_.getTile.getProperties.get("terrain").toString)
+    return !option.exists(it => it != null && it.contains("1"))
+  }
+
+  def tileAt(position: Vector2) = map.getLayers.get("Terrain").asInstanceOf[TiledMapTileLayer].getCell(
+    (position.x / map.getProperties.get("tilewidth", classOf[Integer])).toInt,
+    (position.y / map.getProperties.get("tileheight", classOf[Integer])).toInt)
 
 }
 

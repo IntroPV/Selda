@@ -76,7 +76,7 @@ object NPCState {
   }
 }
 
-class NPC(initialPosition: Vector2, world: World) extends SeldaUnit {
+class NPC(initialPosition: Vector2, val world: World) extends SeldaUnit {
   var state: NPCState = Sleeping()
 
   facingDirection = CoordinateDirection.South

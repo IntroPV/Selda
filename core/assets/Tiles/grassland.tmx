@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" nextobjectid="22">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="32" tilewidth="16" tileheight="16" nextobjectid="24">
  <tileset firstgid="1" source="Overworld.tsx"/>
  <layer name="Terrain" width="32" height="32">
   <data encoding="csv">
@@ -146,15 +146,17 @@
 </data>
  </layer>
  <objectgroup name="Objects" offsetx="0" offsety="0.5">
-  <object id="10" x="272" y="80" width="48" height="48">
-   <ellipse/>
-  </object>
-  <object id="12" x="416" y="80" width="48" height="48">
-   <ellipse/>
-  </object>
-  <object id="13" x="296" y="80" width="144" height="48"/>
-  <object id="19" name="PlayerStartingPosition" x="370.371" y="131.974"/>
+  <object id="19" name="PlayerStartingPosition" x="286.371" y="195.974"/>
   <object id="20" name="TownArea" x="185.825" y="-30" width="332.092" height="250"/>
+ </objectgroup>
+ <objectgroup name="Colliders" visible="0">
+  <object id="13" name="castle" x="296" y="80" width="144" height="48"/>
+  <object id="12" name="castleTower1" x="416" y="80" width="48" height="48">
+   <ellipse/>
+  </object>
+  <object id="10" name="castleTower2" x="272" y="80" width="48" height="48">
+   <ellipse/>
+  </object>
  </objectgroup>
  <layer name="Foreground" width="32" height="32">
   <data encoding="csv">

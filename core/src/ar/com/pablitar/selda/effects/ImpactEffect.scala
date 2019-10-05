@@ -14,6 +14,7 @@ class ImpactEffect(initialPosition: Vector2, world: World) extends SeldaElement 
   //y el hecho que sean stateful es una de las mejores alternativas que hay
   var particleEffect = ImpactEffectRenderer.pool.obtain()
   particleEffect.setPosition(x, y)
+  particleEffect.start()
   
   def update(delta: Float, actualDelta: Float) = {
     elapsed+=delta
